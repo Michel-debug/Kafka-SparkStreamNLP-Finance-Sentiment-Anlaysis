@@ -8,14 +8,13 @@
 
 # 2.技术架构
 
-- ## 技术选型
+## 技术选型
 
-  编译环境： **vscode** + 远程容器remote 操作python文件（vscode远程remote操控容器下的python脚本 具体百度）
-  容器化技术：**docker-compose** 进行服务搭建
-
-  消息处理：**kafka**  本项目使用它进行数据削峰，减少sparkstreaming端压力
-  核心功能： **spark** + 使用来自 [hugging face](https://huggingface.co/) 中预训练模型**distiilbert** ( 已加载到本地 ) 
-  数据库： **clickhouse** 列式存储，在数据科学领域条件查询，机器学习，聚类分析，聚合分析，列式存储效率远高于传统行式存储数据库
+- 编译环境： **vscode** + 远程容器remote 操作python文件（vscode远程remote操控容器下的python脚本 具体百度）
+- 容器化技术：**docker-compose** 进行服务搭建
+- 消息处理：**kafka**  本项目使用它进行数据削峰，减少sparkstreaming端压力
+- 核心功能： **spark** + 使用来自 [hugging face](https://huggingface.co/) 中预训练模型**distiilbert** ( 已加载到本地 ) 
+- 数据库： **clickhouse** 列式存储，在数据科学领域条件查询，机器学习，聚类分析，聚合分析，列式存储效率远高于传统行式存储数据库
 
 ## 系统架构
 
