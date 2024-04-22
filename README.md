@@ -8,15 +8,23 @@
 
 # 2.技术架构
 
-## 技术选型
+- ## 技术选型
 
-- 编译环境： **vscode** + 远程容器remote 操作python文件（vscode远程remote操控容器下的python脚本 具体百度）
-- 容器化技术：**docker-compose** 进行服务搭建
-- 消息处理：**kafka**  本项目使用它进行数据削峰，减少sparkstreaming端压力
-- 核心功能： **sparkstreaming** + 使用来自 [hugging face](https://huggingface.co/) 中预训练模型**distiilbert** ( 已加载到本地 ) 
-- 数据库： **clickhouse** 列式存储，在数据科学领域条件查询，机器学习，聚类分析，聚合分析，列式存储效率远高于传统行式存储数据库
+  - 编译环境： **vscode** + 远程容器remote 操作python文件（vscode远程remote操控容器下的python脚本 具体百度）
 
-## 系统架构
+  - 容器化技术：**docker-compose** 进行服务搭建
+
+  - 分布式**zookeeper**管理： 当前为standalone模式，后续分布式将会使用
+
+  - 消息处理：**kafka**  本项目使用它进行数据削峰，减少sparkstreaming端压力
+
+  - 核心功能： **sparkstreaming** + 使用来自 [hugging face](https://huggingface.co/) 中预训练模型**distiilbert** ( 已加载到本地 ) 
+
+  - 数据库： **clickhouse** 列式存储，在数据科学领域条件查询，机器学习，聚类分析，聚合分析，列式存储效率远高于传统行式存储数据库
+
+
+- ## 系统架构
+
 
 ![structure](./README.assets/structure.png)
 
@@ -38,7 +46,7 @@
 
 （具体环境文件已经放在目录中）若丢失请按照下面步骤按照
 
-## python 环境安装（conda包管理）
+## 3.1 python 环境安装（conda包管理）
 
 ```
 conda env create -f environment.yml
@@ -49,12 +57,12 @@ conda activate nlp
 
 ##### 预备条件： 若没有安装，请先去官网安装[docker客户端](https://www.docker.com)
 
-## Mac arm架构（m芯片）
+## 3.2 Mac arm架构（m芯片）
 
 对于mac小伙伴，老师已经给你们准备好了docker 镜像环境，
 
 
-### clickhouse,spark, kafka 以及 zookeeper，使用docker-compose 安装
+### 3.2.1 clickhouse,spark, kafka 以及 zookeeper，使用docker-compose 安装
 
 在项目目录下创建docker-compose.yml, 编辑该文件，内容如下
 
@@ -78,7 +86,7 @@ services:
     networks:
       - myNetwork
       
-	spark:
+spark:
 		image: 'chen0177/pyspark:latest'
     container_name: spark_sentiment
     restart: no
@@ -138,9 +146,9 @@ services:
 
 **（注意若以上环境docker-compose 存在问题), 请分开使用docker 单独加载镜像。直接去官网拉取最新的镜像安装即可**
 
-## windows 环境 
+## 3.3 windows 环境 
 
-### clickhouse 安装说明
+### 3.3.1 clickhouse 安装说明
 
 对于windows 的小伙伴，同样可以使用docker-compose 安装但是唯一要注意的的是clickhouse的安装，由于mac 版本老师已经在镜像中做了配置文件的更改，windows并没有更改配置 因此需要进行下面配置，首先单独安装clickhouse 容器，操作如下：
 
@@ -185,7 +193,7 @@ clickhouse/clickhouse-server:latest
 
 这样clickhouse 容器就安装好啦。
 
-### spark，kafka，zookeeper 安装
+### 3.3.2 spark，kafka，zookeeper 安装
 
 同理还是使用docker-compose 构建，在项目根目录下新建文件docker-compose.xml，唯一需要注意的是更换image源
 
@@ -251,7 +259,7 @@ services:
 
 
 
-### 容器通信测试
+## 3.4 容器通信测试
 
 使用命令`docker network ls` 将会显示你的docker 容器网络信息 
 ![docker_network](./README.assets/docker_network.png)
@@ -671,18 +679,21 @@ WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThrea
 
 🍾🍾🍾祝贺！！！ 你已经成功完成了这个基于spark自动NLP情感分析的项目，现在你熟悉了从0到1如何搭建起大数据框架加深度学习的流程，在日后学习中，可以按照这个思路进行项目构思，非常感谢你的阅读🙏. 
 我们后续分布式项目再见👋（创作不易😊，如果这个项目对于你们有不少的灵感，希望可以贡献一下你们的⭐️⭐️⭐️.）
+**由于文章写的仓促，若出现错别字请谅解，谢谢！！❤️❤️**
 
 鸣谢 @网友 spider 对项目改进的意见.
 
 # 9.附录
 
-- hugging_face 模型下载链接：*https://huggingface.co/CHEN6688/DistillBert_for_sparkStreaming/tree/main*
-- Transformer classification 教程来源巴黎萨克雷大学研究员marcevrard：*https://github.com/marcevrard/nlp-with-transformers-book*
-- 本项目finetuning模型来自 hugging face ： *https://huggingface.co/CHEN6688/DistillBert_for_sparkStreaming/tree/main*
-- Distillbert模型横向对比基线模型准确率 来自实验：*https://github.com/Michel-debug/NLP_Sentiment_analyse*各大新闻api 来源rapideapi ：*https://rapidapi.com/hub*
-- 其他api ： *https://newsapi.org*
-- sparkstreaming参考文档:*https://spark.apache.org/streaming/*
-- Kafka producer api 参考文档：*https://kafka.apache.org/documentation/#producerapi*
+- [hugging_face 模型下载](https://huggingface.co/CHEN6688/DistillBert_for_sparkStreaming/tree/main)链接
+- Transformer classification 教程来源巴黎萨克雷大学研究员[marcevrard](https://github.com/marcevrard/nlp-with-transformers-book)
+- 本项目finetuning模型来自 [hugging face]( *https://huggingface.co/CHEN6688/DistillBert_for_sparkStreaming/tree/main*) 
+- Distillbert模型横向对比基线模型准确率 来自[实验](*https://github.com/Michel-debug/NLP_Sentiment_analyse*)
+- 各大新闻api 来源[rapideapi](https://rapidapi.com/hub) 
+- [其他新闻api]( *https://newsapi.org*) 
+- [sparkstreaming参考文档](:*https://spark.apache.org/streaming/*)
+- [Kafka producer api 参考文档](https://kafka.apache.org/documentation/#producerapi)
+- [docker镜像](https://hub.docker.com/repositories/chen0177)
 
 # 法律声明
 
