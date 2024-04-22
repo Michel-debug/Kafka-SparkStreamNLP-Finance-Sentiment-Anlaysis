@@ -1,0 +1,45 @@
+version: "3.0"
+networks:
+  myNetwork:
+
+services:
+
+  zookeeper:
+    image: 'bitnami/zookeeper:latest'
+    container_name: zookeeper
+    restart: no
+    ports:
+      - '2181:2181'
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
+    volumes:
+      - zookeeper_data:/bitnami/zookeeper 
+    networks:
+      - myNetwork
+
+  kafka:
+    image: 'bitnami/kafka:latest'
+    container_name: kafka
+    user: root
+    restart: no
+    ports:
+      - '9092:9092'
+      - '9093:9092'
+    environment:
+      - KAFKA_BROKER_ID=1
+      - KAFKA_INTER_BROKER_LISTENER_NAME=INTERNAL
+      # 9093 给内网使用 spark容器连接 走这条路， 9092给外部python脚本使用
+      - KAFKA_LISTENERS=INTERNAL://:9093,EXTERNAL://:9092
+      # spark 容器根据容器通信连接9092， 宿主机根据端口映射原理连接9092
+      - KAFKA_ADVERTISED_LISTENERS=INTERNAL://kafka:9092,EXTERNAL://localhost:9092
+      # 使用不同的监听器名称来区分不同的安全和网络配置
+      - KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
+      - ALLOW_PLAINTEXT_LISTENER=yes
+
+    volumes:
+      - ./Kafka:/bitnami/kafka
+    networks:
+      - myNetwork
+    depends_on:
+      - zookeeper

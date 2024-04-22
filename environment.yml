@@ -1,0 +1,20 @@
+# this file is used to create a conda environment on mac 
+name: nlp
+channels:
+  - pytorch
+  - defaults
+  - pyg
+  - conda-forge
+dependencies:
+  - python=3.9
+  - pytorch
+  - torchvision
+  - pip
+  - notebook
+  - ipykernel
+  - ipywidgets
+  - git-lfs
+  - libsndfile
+  - pip:
+      - torch-scatter -f https://data.pyg.org/whl/torch-1.8.0+cpu.html
+      - -r requirements.txt
