@@ -4,7 +4,7 @@
 
 ​	在当前金融变换莫测的时代，如何从金融新闻标题获取民生对股市，经济，企业的看法态度尤为重要。本项目为了应对当前互联网**人工智能**发展趋势以及**大数据**发展潮流，搭建了一个从0到1的基于***kakfa+sparkstreaming+NLP深度学习模型+clickhouse数据库***的***全自动微批式金融文本分析***的项目。最终实现**数秒**内可分析**千条**新闻头条情感信息, 将形如"PayPal snaps 7-day losing streak with marginal gain"输出预测**positive**。 系统最终将新闻情感分为三大类positive,neutral,negative.
 
-注意⚠️：该项目仅用于学习，让初学者了解工程化技术，容器化技术，熟悉全流程的项目搭建，该项目是standalone架构，所以学习者无需担心分布式环境，学习者只需要准备一台16g内存的笔记本就好。后续将会发布分布式版本，若有小伙伴感兴趣，记得star一下哦❤️, 关注不迷路！！
+注意⚠️：该项目仅用于个人学习，让初学者了解工程化技术，容器化技术，熟悉全流程的项目搭建，该项目是standalone架构，所以学习者无需担心分布式环境，学习者只需要准备一台16g内存的笔记本就好。后续将会发布分布式版本，若有小伙伴感兴趣，记得star一下哦❤️, 关注不迷路！！
 
 # 2.技术架构
 
@@ -19,7 +19,7 @@
 
 ## 系统架构
 
-![截屏2024-04-22 12.52.38](/Users/chenchenjunjie/Person_project/README.assets/截屏2024-04-22 12.59.12.png)
+![structure](./README.assets/structure.png)
 
 
 
@@ -39,7 +39,14 @@
 
 （具体环境文件已经放在目录中）若丢失请按照下面步骤按照
 
-## python 环境安装
+## python 环境安装（conda包管理）
+
+```
+conda env create -f environment.yml
+conda activate nlp
+```
+
+请使用文件目录下的enviroment.yml 进行环境统一配置
 
 ##### 预备条件： 若没有安装，请先去官网安装[docker客户端](https://www.docker.com)
 
@@ -126,7 +133,7 @@ services:
 ​	最后保存文件，假设在该（在person_project/）目录下，执行 `docker-compose up -d`，即可完成搭建. 命令行终端输入`docker ps -a`现在的docker 容器应该向如下所示
 
 
-![截屏2024-04-22 14.24.34](/Users/chenchenjunjie/Person_project/README.assets/截屏2024-04-22 14.24.34.png)
+![container](./README.assets/container.png)
 
 **（注意若以上环境docker-compose 存在问题), 请分开使用docker 单独加载镜像。直接去官网拉取最新的镜像安装即可**
 
@@ -152,14 +159,14 @@ docker stop temp-clickhouse-server
 ```
 
 接着在**本地** 目录打开刚才我们挂载的卷轴 ./storage/clickhouse/conf/users.xml，修改文件如下
-![截屏2024-04-21 22.34.45](/Users/chenchenjunjie/Person_project/README.assets/截屏2024-04-21 22.34.45.png)
+![clickhouse_listen](./README.assets/clickhouse_listen.png)
 
 图解： 更改成你需要监听**(文件查找listen)**的端口号，当前我们在学习阶段，单机模式，写成任意即可，生产环境一定要修改哦！
 
 
 
 打开 user.xml,修改如下
-![截屏2024-04-21 22.36.21](/Users/chenchenjunjie/Person_project/README.assets/截屏2024-04-21 22.36.21.png)
+![clickhouse_user](./README.assets/clickhouse_user.png)
 
 图解：给clickhouse 设置初始密码**(文件查找password)**
 
@@ -245,9 +252,10 @@ services:
 ### 容器通信测试
 
 使用命令`docker network ls` 将会显示你的docker 容器网络信息 
-![截屏2024-04-22 14.35.14](/Users/chenchenjunjie/Person_project/README.assets/截屏2024-04-22 14.35.14.png)
+![docker_network](./README.assets/docker_network.png)
 
-使用`docker network inspect person_project_myNetwork`, 应该会出现下面的信息![截屏2024-04-21 22.49.50](/Users/chenchenjunjie/Person_project/README.assets/截屏2024-04-21 22.49.50.png)
+使用`docker network inspect person_project_myNetwork`, 应该会出现下面的信息
+![docker_inspect](./README.assets/docker_inspect.png)
 
 你会发现他们在同一个局域网下，现在你可以开始进入一个容器，比如`docker exec -it spark_sentiment bash`, 通过ping 容器名称的形式，查看容器间通信是否正常. 查看是否丢包
 使用 `nc -vz 容器名称:端口号` ，查看容器间端口号访问是否正常. 如何成功监听将会返回**succeed** 
@@ -282,9 +290,10 @@ kafka-topics.sh --create --bootstrap-server localhost:9092 --replication-factor 
 
 ## 4.2 clickhouse建表
 
-运行clickhouse容器，由于我们的项目仅供学习，因此我们使用默认的数据库default，请小伙伴们使用navicat，或者datagrip 客户端进行数据库连接，连接比如如下所示![截屏2024-04-22 16.10.22](/Users/chenchenjunjie/Person_project/README.assets/截屏2024-04-22 16.10.22.png)
+运行clickhouse容器，由于我们的项目仅供学习，因此我们使用默认的数据库default，请小伙伴们使用navicat，或者datagrip 客户端进行数据库连接，连接比如如下所示![clickhouse_choose](./README.assets/clickhouse_choose.png)
 
-![截屏2024-04-22 16.10.51](/Users/chenchenjunjie/Person_project/README.assets/截屏2024-04-22 16.10.51.png)
+
+![clickhouse_password](./README.assets/clickhouse_password.png)
 
 注意第一次运行的小伙伴：可能需要下载驱动文件，等待几分钟下载完即可，输入本地密码 之前配置文件配过的，连接
 如果到这里成功了，那么恭喜你，我们项目搭建基本快完成了，只差最后一步，建表
@@ -310,7 +319,7 @@ ORDER BY timestamp;
 
 在spark-sentiment 容器 家目录下新建kf_to_sstreaming的脚本文件
 
-![截屏2024-04-22 16.21.19](/Users/chenchenjunjie/Person_project/README.assets/截屏2024-04-22 16.21.19.png)
+![docker_script_intro](./README.assets/docker_script_intro.png)
 
 正如上图所示，systeme是我们自己操作系统下的脚本文件，然而sparkstreaming服务在容器spark-sentiment中，因此我们想要使用spark环境只能在spark容器中进行，我们需要在spark容器 新建kf_to_sstreaming.py 为后续程序运行做铺垫。
 
@@ -534,11 +543,11 @@ query.awaitTermination()
 
 ## 5.6 宿主机查询clickhouse数据库数据
 
-当我们启动docker容器 clickhouse-server 时，默认数据库服务已经启动，可以在宿主机上使用navicat或者datagrip等客户端工具进行查询，这里我以datagrip客户端为例，如下图所示![截屏2024-04-22 15.47.11](/Users/chenchenjunjie/Person_project/README.assets/截屏2024-04-22 15.47.11.png)
+当我们启动docker容器 clickhouse-server 时，默认数据库服务已经启动，可以在宿主机上使用navicat或者datagrip等客户端工具进行查询，这里我以datagrip客户端为例，如下图所示![clickhoust_connect2](./README.assets/clickhoust_connect2.png)
 
-直接找到对应的数据库，输入初始化密码，在最初配置文件中是123456，输入连接即可，最终数据库会显示如下所示（以下结果仅用于展示，项目启动请看下面一章内容）![截屏2024-04-22 15.49.15](/Users/chenchenjunjie/Person_project/README.assets/截屏2024-04-22 15.49.15.png)
+直接找到对应的数据库，输入初始化密码，在最初配置文件中是123456，输入连接即可，最终数据库会显示如下所示（以下结果仅用于展示，项目启动请看下面一章内容）![clickhouse_requery](./README.assets/clickhouse_requery.png)
 
-至此项目，全模块已经搭建完成，下一章我将带领大家如何启动我们的项目
+至此项目，全模块已经搭建完成，下一章我将带领大家如何启动我们的项目。
 
 # 6.用户手册
 
@@ -591,21 +600,20 @@ windows系统，可自行在网上搜索任务调度工具即可
    kf_to_sstreaming.py 
    ```
 
-![截屏2024-04-22 19.26.52](/Users/chenchenjunjie/Person_project/README.assets/截屏2024-04-22 19.26.52.png)     
+​     ![spark_succed](./README.assets/spark_succed.png)
 
 3. 在本地宿主机项目目录下 终端运行 `python3  kafka_connector.py`，或者如果配置crontab ，它将会自动执行。
 
-![截屏2024-04-22 19.29.38](/Users/chenchenjunjie/Person_project/README.assets/截屏2024-04-22 19.29.38.png)
+![kafka_connector](./README.assets/kafka_connector.png)
 
 运行完该脚本文件，等待步骤2终端是否变化， 
-![截屏2024-04-22 19.30.14](/Users/chenchenjunjie/Person_project/README.assets/截屏2024-04-22 19.30.14.png)
+![spark_succed2](./README.assets/spark_succed2.png)
 
-发现spark 已经成功消费，并且将流传给了clickhouse
+发现spark 已经成功消费，并且将流传给了clickhouse。
 
-4. 在clickhouse客户端查询，打开datagrip
-   我们发现
+4. 在clickhouse客户端查询，打开datagrip我们发现
 
-![截屏2024-04-22 19.32.08](/Users/chenchenjunjie/Person_project/README.assets/截屏2024-04-22 19.32.08.png)
+![datagrip](./README.assets/datagrip.png)
 
 通过时间我们发现最新一批数据已经进入clickhouse，项目整体流程结束。 
 
@@ -627,7 +635,7 @@ kf_to_sstreaming.py
 
 参考 https://github.com/ClickHouse/metabase-clickhouse-driver/blob/master/CHANGELOG.md 是官方实锤 系统bug，不要紧
 
-![截屏2024-04-22 01.07.23](/Users/chenchenjunjie/Person_project/README.assets/截屏2024-04-22 01.07.23.png)
+![clickhouse_warn](./README.assets/clickhouse_warn.png)
 
 ## 警告3 在启动sparkstreaming后，接受来自kafka的消息，出现KAFKA-1894
 
@@ -677,6 +685,8 @@ WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThrea
 # 法律声明
 
 ***Copyright © 2024 Junjie CHEN. All rights reserved. Unauthorized copying of this file, via any medium is strictly prohibited***
+
+***Copyright © 2024 https://github.com/Michel-debug. All rights reserved. Unauthorized copying of this file, via any medium is strictly prohibited***
 
 
 
