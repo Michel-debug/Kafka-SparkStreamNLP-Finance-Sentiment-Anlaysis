@@ -87,7 +87,7 @@ services:
       - myNetwork
       
 spark:
-		image: 'chen0177/pyspark:latest'
+    image: 'chen0177/pyspark:latest'
     container_name: spark_sentiment
     restart: no
     ports:
@@ -205,7 +205,7 @@ networks:
 services:	
 
  spark:
-		image: 'jupyter/pyspark-notebook'
+    image: 'jupyter/pyspark-notebook'
     container_name: spark_sentiment
     restart: no
     ports:
