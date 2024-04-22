@@ -563,7 +563,7 @@ query.awaitTermination()
 
 ## **github 项目文件介绍**
 
-- **kf_to_sstreaming.py：请把该文件放入spark-sentiment容器的家目录下**
+- **kf_to_sstreaming.py: 请把该文件放入spark-sentiment容器的家目录下**
 
 - api_test.ipynb: 早期测试api使用，无意义
 
@@ -571,13 +571,13 @@ query.awaitTermination()
 
 - docker-compose.xml: 早期docker-compose配置文件，**大家根据教程上的文件进行更新，不要使用我的配置文件！**
 
-- start_server.sh 项目启动脚本，仅仅启动容器
+- start_server.sh: 项目启动脚本，仅仅启动容器
 
-- stop_server.sh 项目关闭脚本，（这个和之前这个有bug未优化，小伙伴可以自己设计脚本 不难）
+- stop_server.sh: 项目关闭脚本，（这个和之前这个有bug未优化，小伙伴可以自己设计脚本 不难）
 
 - **kafka_connector.py: 采集新闻文本到kafka broke 中**
 
-- storage： clickhouse 容器挂载文件目录
+- storage: clickhouse 容器挂载文件目录
 
   （本项目核心文件为加粗字体）
 
