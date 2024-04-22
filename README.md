@@ -2,7 +2,7 @@
 
 - ## 项目背景
 
-​	在当前金融变换莫测的时代，如何从金融新闻标题获取民生对股市，经济，企业的看法态度尤为重要。本项目为了应对当前互联网**人工智能**发展趋势以及**大数据**发展潮流，搭建了一个从0到1的基于***kakfa+sparkstreaming+NLP深度学习模型+clickhouse数据库***的***全自动微批式金融文本分析***的项目。最终实现**数秒**内可分析**千条**新闻头条情感信息, 将形如"PayPal snaps 7-day losing streak with marginal gain"输出预测**positive**。 系统最终将新闻情感分为三大类positive,neutral,negative.
+在当前金融变换莫测的时代，如何从金融新闻标题获取民生对股市，经济，企业的看法态度尤为重要。本项目为了应对当前互联网**人工智能**发展趋势以及**大数据**发展潮流，搭建了一个从0到1的基于***kakfa+sparkstreaming+NLP深度学习模型+clickhouse数据库***的***全自动微批式金融文本分析***的项目。最终实现**数秒**内可分析**千条**新闻头条情感信息, 将形如"PayPal snaps 7-day losing streak with marginal gain"输出预测**positive**。 系统最终将新闻情感分为三大类positive,neutral,negative.
 
 注意⚠️：该项目仅用于个人学习，让初学者了解工程化技术，容器化技术，熟悉全流程的项目搭建，该项目是standalone架构，所以学习者无需担心分布式环境，学习者只需要准备一台16g内存的笔记本就好。后续将会发布分布式版本，若有小伙伴感兴趣，记得star一下哦❤️, 关注不迷路！！
 
@@ -13,7 +13,7 @@
 - 编译环境： **vscode** + 远程容器remote 操作python文件（vscode远程remote操控容器下的python脚本 具体百度）
 - 容器化技术：**docker-compose** 进行服务搭建
 - 消息处理：**kafka**  本项目使用它进行数据削峰，减少sparkstreaming端压力
-- 核心功能： **spark** + 使用来自 [hugging face](https://huggingface.co/) 中预训练模型**distiilbert** ( 已加载到本地 ) 
+- 核心功能： **sparkstreaming** + 使用来自 [hugging face](https://huggingface.co/) 中预训练模型**distiilbert** ( 已加载到本地 ) 
 - 数据库： **clickhouse** 列式存储，在数据科学领域条件查询，机器学习，聚类分析，聚合分析，列式存储效率远高于传统行式存储数据库
 
 ## 系统架构
@@ -64,6 +64,7 @@ networks:
   myNetwork:
 
 services:	
+
   clickhouse:
     image: 'chen0177/clickhouse:latest'
     container_name: clickhouse-server
@@ -76,6 +77,7 @@ services:
     	- ./storage/clickhouse/data:/var/lib/clickhouse/
     networks:
       - myNetwork
+      
 	spark:
 		image: 'chen0177/pyspark:latest'
     container_name: spark_sentiment
@@ -193,6 +195,7 @@ networks:
   myNetwork:
 
 services:	
+
 	spark:
 		image: 'jupyter/pyspark-notebook'
     container_name: spark_sentiment
