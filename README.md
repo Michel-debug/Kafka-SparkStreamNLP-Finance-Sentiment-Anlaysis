@@ -686,12 +686,12 @@ WARN KafkaDataConsumer: KafkaDataConsumer is not running in UninterruptibleThrea
 # 9.附录
 
 - [hugging_face 模型下载](https://huggingface.co/CHEN6688/DistillBert_for_sparkStreaming/tree/main)链接
-- Transformer classification 教程来源巴黎萨克雷大学研究员[marcevrard](https://github.com/marcevrard/nlp-with-transformers-book)
-- 本项目finetuning模型来自 [hugging face]( *https://huggingface.co/CHEN6688/DistillBert_for_sparkStreaming/tree/main*) 
-- Distillbert模型横向对比基线模型准确率 来自[实验](*https://github.com/Michel-debug/NLP_Sentiment_analyse*)
+- Transformer classification 教程来源巴黎萨克雷大学inria实验室研究员[marcevrard](https://github.com/marcevrard/nlp-with-transformers-book)
+- finetuning模型来自 [hugging face](https://huggingface.co/CHEN6688/DistillBert_for_sparkStreaming/tree/main) 
+- Distillbert模型横向对比基线模型准确率 来自[实验](https://github.com/Michel-debug/NLP_Sentiment_analyse)
 - 各大新闻api 来源[rapideapi](https://rapidapi.com/hub) 
-- [其他新闻api]( *https://newsapi.org*) 
-- [sparkstreaming参考文档](:*https://spark.apache.org/streaming/*)
+- [其他新闻api](https://newsapi.org) 
+- [sparkstreaming参考文档](https://spark.apache.org/streaming/)
 - [Kafka producer api 参考文档](https://kafka.apache.org/documentation/#producerapi)
 - [docker镜像](https://hub.docker.com/repositories/chen0177)
 
