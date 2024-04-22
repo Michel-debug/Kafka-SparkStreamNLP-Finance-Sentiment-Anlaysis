@@ -65,7 +65,7 @@ networks:
 
 services:	
 
-  clickhouse:
+ clickhouse:
     image: 'chen0177/clickhouse:latest'
     container_name: clickhouse-server
     restart: no
@@ -196,7 +196,7 @@ networks:
 
 services:	
 
-	spark:
+ spark:
 		image: 'jupyter/pyspark-notebook'
     container_name: spark_sentiment
     restart: no
